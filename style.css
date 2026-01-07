@@ -444,33 +444,40 @@ body::before {
     box-shadow: 0 4px 10px rgba(255, 123, 0, 0.3);
 }
 
-/* Slider Controls */
 .slider-controls {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    gap: 10px;
+    gap: 6px; /* Reduced from 10px */
     z-index: 10;
 }
 
 .slider-dot {
-    width: 12px;
-    height: 12px;
+    width: 8px;  /* Reduced from 12px */
+    height: 8px; /* Reduced from 12px */
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.4);
     cursor: pointer;
     transition: all 0.3s ease;
     border: none;
     padding: 0;
+    margin: 0 3px; /* Add spacing between dots */
 }
 
 .slider-dot.active {
     background: var(--orange-primary);
-    transform: scale(1.3);
-    box-shadow: 0 0 8px rgba(255, 123, 0, 0.5);
+    transform: scale(1.2);
+    box-shadow: 0 0 5px rgba(255, 123, 0, 0.5); /* Reduced shadow */
 }
+
+/* Active dot ka bhi size control karein */
+.slider-dot.active {
+    width: 8px;  /* Active state me bhi same size */
+    height: 8px; /* Active state me bhi same size */
+}
+
 
 .slider-arrow {
     position: absolute;
@@ -976,6 +983,18 @@ footer h5 {
     .slider-arrow.next {
         right: 20px;
     }
+
+     .slider-dot {
+        width: 6px;  /* Mobile pe aur chhota */
+        height: 6px; /* Mobile pe aur chhota */
+        margin: 0 2px;
+    }
+    
+    .slider-controls {
+        gap: 4px; /* Mobile pe aur kam gap */
+        bottom: 15px; /* Slightly higher */
+    }
+
     
     .section-title {
         font-size: 2rem;
