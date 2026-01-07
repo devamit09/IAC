@@ -74,143 +74,135 @@ small {
     opacity: 0.9 !important;
 }
 
-/* =================== GOOGLE MAPS FIXES =================== */
-/* Interactive Map Container */
-.interactive-map {
+/* =================== SIMPLE MAP STYLES =================== */
+.map-container {
     position: relative;
-    height: 350px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 123, 0, 0.2);
-    background: rgba(40, 40, 40, 0.9);
-    backdrop-filter: blur(10px);
-    margin-top: 2rem;
+    margin: 2rem 0;
+    background: rgba(30, 30, 30, 0.95);
 }
 
-/* Static Map Image */
-.static-map {
-    position: relative;
+.map-container iframe {
     width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    z-index: 2;
+    height: 450px;
+    display: block;
+    border: 0;
 }
 
-.static-map-placeholder {
-    text-align: center;
-    color: #f0f0f0;
-    max-width: 600px;
-}
-
-.static-map-placeholder i {
-    color: var(--orange-primary);
-    margin-bottom: 1rem;
-}
-
-.static-map-placeholder h4,
-.static-map-placeholder h5 {
-    color: #ffffff !important;
-    margin-bottom: 1rem;
-}
-
-.static-map-placeholder p {
-    color: #f0f0f0 !important;
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-}
-
-.static-map-placeholder .lead {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-.static-map-placeholder .text-muted {
-    font-size: 0.9rem;
-    color: #aaaaaa !important;
-}
-
-/* Map Overlay */
-.map-overlay {
+.simple-map-buttons {
     position: absolute;
-    bottom: 0;
+    bottom: 20px;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    padding: 20px;
     display: flex;
     gap: 15px;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+    padding: 0 20px;
+    z-index: 10;
 }
 
-/* Map Buttons */
-.open-map-btn,
-.open-directions-btn {
-    padding: 12px 25px;
+.simple-map-buttons .btn {
+    padding: 12px 24px;
     font-weight: 600;
-    border-radius: var(--border-radius);
-    transition: all 0.3s ease;
+    border-radius: 8px;
+    text-decoration: none;
     min-height: 50px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    min-width: 160px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.open-map-btn {
+.simple-map-buttons .btn-primary {
     background: linear-gradient(135deg, var(--orange-primary), #e74c3c);
+    border: none;
     color: white !important;
-    box-shadow: 0 4px 15px rgba(255, 123, 0, 0.3);
 }
 
-.open-directions-btn {
+.simple-map-buttons .btn-outline-light {
     background: rgba(255, 255, 255, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(10px);
     color: white !important;
 }
 
-.open-map-btn:hover,
-.open-directions-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 123, 0, 0.4);
+.simple-map-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-.open-map-btn:active,
-.open-directions-btn:active {
-    transform: translateY(-1px);
+.simple-map-buttons .btn:active {
+    transform: translateY(0);
 }
 
-/* Desktop Map Iframe */
-.desktop-map-iframe {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
+/* Mobile responsive map */
+@media (max-width: 768px) {
+    .map-container iframe {
+        height: 350px;
+    }
+    
+    .simple-map-buttons {
+        flex-direction: column;
+        gap: 10px;
+        bottom: 15px;
+    }
+    
+    .simple-map-buttons .btn {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 14px 20px;
+    }
 }
 
-.desktop-map-iframe iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
+@media (max-width: 576px) {
+    .map-container iframe {
+        height: 300px;
+    }
+    
+    .simple-map-buttons {
+        padding: 0 15px;
+        bottom: 12px;
+    }
+    
+    .simple-map-buttons .btn {
+        padding: 12px 18px;
+        font-size: 0.95rem;
+    }
 }
 
-/* Touch-friendly map area */
-.map-container {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
+@media (max-width: 380px) {
+    .map-container iframe {
+        height: 280px;
+    }
+    
+    .simple-map-buttons .btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .simple-map-buttons .btn {
+        min-height: 50px;
+        padding: 14px 20px;
+    }
+    
+    .simple-map-buttons .btn:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Orientation-specific fixes */
+@media (orientation: landscape) and (max-width: 991px) {
+    .map-container iframe {
+        height: 280px;
+    }
 }
 
 /* =================== GLOBAL MOBILE-FIRST STYLES =================== */
@@ -796,23 +788,6 @@ body::before {
     color: white !important;
 }
 
-/* =================== MAP CONTAINER - NEW FIXES =================== */
-
-/* Ensure map container has consistent height */
-.map-container {
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 123, 0, 0.1);
-    height: 250px;
-}
-
-.map-container iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-}
-
 /* =================== BRAND LIST =================== */
 .brand-list {
     list-style: none;
@@ -918,6 +893,7 @@ body::before {
 
 .float-buttons a:hover {
     transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
 .whatsapp-btn { 
@@ -1018,15 +994,8 @@ footer h5 {
         padding: 2rem;
     }
     
-    .interactive-map {
+    .map-container iframe {
         height: 400px;
-    }
-    
-    .open-map-btn,
-    .open-directions-btn {
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        min-width: 180px;
     }
 }
 
@@ -1073,16 +1042,8 @@ footer h5 {
         width: auto;
     }
     
-    .interactive-map {
+    .map-container iframe {
         height: 450px;
-    }
-    
-    .static-map-placeholder h4 {
-        font-size: 1.8rem;
-    }
-    
-    .static-map-placeholder .lead {
-        font-size: 1.3rem;
     }
 }
 
@@ -1099,10 +1060,6 @@ footer h5 {
     
     .about-image {
         height: 450px;
-    }
-    
-    .interactive-map {
-        height: 500px;
     }
 }
 
@@ -1121,8 +1078,7 @@ footer h5 {
         transition: opacity 0.5s ease !important;
     }
     
-    .open-map-btn,
-    .open-directions-btn,
+    .simple-map-buttons .btn,
     .service-card,
     .industry-card,
     .leader-card {
@@ -1137,8 +1093,7 @@ footer h5 {
     .slider-controls,
     .navbar-toggler,
     .contact-form,
-    .interactive-map,
-    .desktop-map-iframe {
+    .map-container {
         display: none !important;
     }
     
@@ -1274,12 +1229,11 @@ img[loading="lazy"].loaded {
         font-size: 16px !important;
     }
     
-    .interactive-map {
+    .map-container iframe {
         height: 280px;
     }
     
-    .open-map-btn,
-    .open-directions-btn {
+    .simple-map-buttons .btn {
         padding: 14px 25px;
         font-size: 1rem;
     }
@@ -1309,108 +1263,17 @@ img[loading="lazy"].loaded {
         margin-bottom: 1rem;
     }
     
-    .interactive-map {
+    .map-container iframe {
         height: 250px;
     }
     
-    .map-overlay {
+    .simple-map-buttons {
         padding: 10px;
     }
     
-    .open-map-btn,
-    .open-directions-btn {
+    .simple-map-buttons .btn {
         padding: 10px 15px;
         font-size: 0.9rem;
-        min-width: 140px;
-    }
-}
-
-/* =================== MOBILE MAP FIXES =================== */
-@media (max-width: 991px) {
-    .interactive-map {
-        height: 300px;
-    }
-    
-    .map-overlay {
-        padding: 15px;
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .open-map-btn,
-    .open-directions-btn {
-        width: 100%;
-        max-width: 280px;
-        padding: 14px 20px;
-        font-size: 1rem;
-    }
-    
-    .static-map-placeholder {
-        padding: 1rem;
-    }
-    
-    .static-map-placeholder h5 {
-        font-size: 1.2rem;
-    }
-    
-    .static-map-placeholder p {
-        font-size: 1rem;
-    }
-    
-    /* Hide desktop iframe on mobile */
-    .desktop-map-iframe {
-        display: none !important;
-    }
-    
-    /* Ensure static map is visible */
-    .static-map {
-        display: flex !important;
-        z-index: 10 !important;
-    }
-}
-
-@media (min-width: 992px) {
-    /* Show iframe on desktop */
-    .desktop-map-iframe {
-        display: block !important;
-        z-index: 10 !important;
-    }
-    
-    /* Hide static map on desktop when iframe is available */
-    .static-map {
-        display: none !important;
-        z-index: 0 !important;
-    }
-}
-
-/* Small Mobile */
-@media (max-width: 576px) {
-    .interactive-map {
-        height: 250px;
-        border-radius: 10px;
-    }
-    
-    .map-overlay {
-        padding: 12px;
-    }
-    
-    .open-map-btn,
-    .open-directions-btn {
-        padding: 12px 15px;
-        font-size: 0.95rem;
-        min-width: auto;
-    }
-    
-    .static-map-placeholder i {
-        font-size: 2rem;
-    }
-    
-    .static-map-placeholder h5 {
-        font-size: 1.1rem;
-    }
-    
-    .static-map-placeholder p {
-        font-size: 0.95rem;
     }
 }
 
@@ -1422,89 +1285,13 @@ img[loading="lazy"].loaded {
         transform: none;
     }
     
-    .open-map-btn:active,
-    .open-directions-btn:active {
+    .simple-map-buttons .btn:active {
         transform: scale(0.98);
     }
     
     .slider-dot {
         width: 14px;
         height: 14px;
-    }
-    
-    /* Map touch optimizations */
-    .interactive-map {
-        cursor: pointer;
-    }
-    
-    .open-map-btn,
-    .open-directions-btn {
-        min-height: 50px;
-        padding: 14px 25px;
-    }
-}
-
-/* =================== MAP SPECIFIC FIXES =================== */
-
-/* Fix Bootstrap display class enforcement */
-.d-none.d-lg-block {
-    display: none !important;
-}
-
-@media (min-width: 992px) {
-    .d-none.d-lg-block {
-        display: block !important;
-    }
-}
-
-/* Fix iframe display on mobile */
-@media (max-width: 991px) {
-    .desktop-map-iframe iframe {
-        display: none !important;
-    }
-}
-
-/* Ensure map buttons are visible on mobile */
-.static-map-placeholder .btn {
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
-/* Fix map container height on very small screens */
-@media (max-width: 380px) {
-    .interactive-map {
-        height: 220px;
-    }
-    
-    .static-map-placeholder {
-        padding: 0.75rem;
-    }
-    
-    .static-map-placeholder h4 {
-        font-size: 1.1rem;
-    }
-    
-    .static-map-placeholder .lead {
-        font-size: 0.9rem;
-    }
-    
-    .open-map-btn,
-    .open-directions-btn {
-        padding: 10px 15px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Fix map display during orientation changes */
-@media (orientation: portrait) and (max-width: 991px) {
-    .interactive-map {
-        height: 280px;
-    }
-}
-
-@media (orientation: landscape) and (max-width: 991px) {
-    .interactive-map {
-        height: 220px;
     }
 }
 
@@ -1524,8 +1311,7 @@ img[loading="lazy"].loaded {
         border: 2px solid var(--orange-primary) !important;
     }
     
-    .open-map-btn,
-    .open-directions-btn {
+    .simple-map-buttons .btn {
         border: 2px solid #ffffff !important;
     }
 }
@@ -1535,40 +1321,9 @@ img[loading="lazy"].loaded {
     /* Already optimized for dark mode */
 }
 
-/* =================== MAP DYNAMIC ADJUSTMENTS =================== */
-
-/* Touch device class added by JavaScript */
-.interactive-map.touch-device {
-    cursor: pointer;
-}
-
-.interactive-map.touch-device .open-map-btn,
-.interactive-map.touch-device .open-directions-btn {
-    min-height: 50px;
-    padding: 15px 30px;
-}
-
-/* Animation for map loading */
-@keyframes mapFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.interactive-map.loaded {
-    animation: mapFadeIn 0.5s ease-out;
-}
-
 /* =================== EMERGENCY FALLBACK =================== */
 /* If all else fails, ensure map is visible */
-.map-container,
-.interactive-map,
-.static-map {
+.map-container {
     min-height: 200px !important;
     visibility: visible !important;
     opacity: 1 !important;
