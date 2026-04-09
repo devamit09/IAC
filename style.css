@@ -1348,3 +1348,67 @@ img[loading="lazy"].loaded {
     opacity: 1 !important;
     display: block !important;
 }
+
+/* =================== CONTACT FORM RESPONSIVENESS & CAPTCHA =================== */
+@media (max-width: 768px) {
+    .contact-form-container {
+        padding: 1.5rem 1rem;
+        margin: 0 10px;
+    }
+
+    /* iOS auto-zoom problem ko roknne ke liye input size 16px set karein */
+    .contact-form .form-control {
+        font-size: 16px !important; 
+        padding: 0.85rem;
+    }
+
+    .contact-form textarea.form-control {
+        min-height: 150px;
+    }
+
+    .contact-form .btn-primary {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* CAPTCHA ko mobile screen par center mein set karna */
+    .g-recaptcha {
+        transform: scale(0.85);
+        transform-origin: 0 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .g-recaptcha > div {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .contact-form-container h4 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+    
+    .contact-form-container > p {
+        text-align: center;
+        font-size: 0.95rem;
+    }
+    
+    /* Chhoti screens par CAPTCHA thoda aur scale down karna hoga */
+    .g-recaptcha {
+        transform: scale(0.77);
+    }
+}
+
+/* Validation Styles */
+#captchaError {
+    font-size: 0.85rem;
+    color: #ff6b6b !important;
+}

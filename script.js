@@ -5,7 +5,6 @@
 
 // Configuration
 const CONFIG = {
-    GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzCdPevYrBkBlwXt7UweQD3Uh_EpHG86Rr8eZC90DRpdWEmyLUfYc-KQtPZHx5jQYls/exec',
     MAX_FILE_SIZE: 400 * 1024, // 400KB
     ALLOWED_FILE_TYPES: [
         'image/jpeg',
@@ -322,7 +321,7 @@ function initContactForm() {
         }
         
         if (!validateForm(this)) {
-            showAlert('Please fill all required fields correctly.', 'error');
+            showAlert('Kripya sabhi zaroori fields sahi se bharein.', 'error');
             return;
         }
         
@@ -491,84 +490,84 @@ function validateFile(file, showAlert = false) {
     return true;
 }
 
+// Form submission aur validation function
 async function handleFormSubmission(form) {
+    // 1. CAPTCHA Validation Check
+    const captchaResponse = grecaptcha.getResponse();
+    if (captchaResponse.length === 0) {
+        document.getElementById('captchaError').classList.remove('d-none');
+        document.getElementById('captchaError').style.display = 'block';
+        showAlert('Kripya verify karein ki aap robot nahi hain (CAPTCHA check karein).', 'error');
+        return; // Agar captcha empty hai toh form submit nahi hoga
+    } else {
+        document.getElementById('captchaError').style.display = 'none';
+    }
+
     isSubmitting = true;
     
     const submitButton = form.querySelector('button[type="submit"]');
     const originalButtonText = submitButton.innerHTML;
     
-    // Show loading state
-    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+    // Loading state dikhayein
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Bheja ja raha hai...';
     submitButton.disabled = true;
     submitButton.classList.add('loading');
     
     try {
-        // Get form data
-        const formData = {
-            name: document.getElementById('contactName').value.trim(),
-            email: document.getElementById('contactEmail').value.trim(),
-            phone: document.getElementById('contactPhone').value.trim() || 'Not provided',
-            company: document.getElementById('contactCompany').value.trim() || 'Not provided',
-            subject: document.getElementById('contactSubject').value,
-            message: document.getElementById('contactMessage').value.trim(),
-            submission_id: `innometrics_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-        };
+        // Form ka saara data natively collect karein
+        const formData = new FormData(form);
         
-        // Create URL parameters
-        const params = new URLSearchParams();
-        Object.keys(formData).forEach(key => {
-            params.append(key, formData[key]);
+        // Formspree API par data bhejein (Fetch API use karke taaki page reload na ho)
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
         });
         
-        // Add timestamp
-        params.append('timestamp', new Date().toISOString());
-        
-        // Create submission URL
-        const submitUrl = `${CONFIG.GOOGLE_SCRIPT_URL}?${params.toString()}`;
-        
-        // Submit using fetch
-        const response = await fetch(submitUrl, {
-            method: 'GET',
-            mode: 'no-cors',
-            cache: 'no-cache'
-        });
-        
-        console.log('✅ Form submitted successfully');
-        
-        // Show success message
-        showAlert(
-            '<div class="text-center">' +
-            '<i class="fas fa-check-circle fa-2x text-success mb-2"></i>' +
-            '<h5 class="mb-2">Thank You!</h5>' +
-            '<p>Your message has been sent successfully.<br>We will contact you within 24 hours.</p>' +
-            '</div>',
-            'success'
-        );
-        
-        // Reset form after delay
-        setTimeout(() => {
-            resetForm(form);
-        }, 1500);
+        if (response.ok) {
+            console.log('✅ Form successfully Formspree ke through bhej diya gaya hai');
+            
+            // Success alert (Hinglish mein)
+            showAlert(
+                '<div class="text-center">' +
+                '<i class="fas fa-check-circle fa-2x text-success mb-2"></i>' +
+                '<h5 class="mb-2">Shukriya!</h5>' +
+                '<p>Aapka message bhej diya gaya hai.<br>Hum 24 ghante ke andar aapse sampark karenge.</p>' +
+                '</div>',
+                'success'
+            );
+            
+            // Form aur reCAPTCHA ko reset karein
+            setTimeout(() => {
+                resetForm(form);
+                grecaptcha.reset();
+            }, 1500);
+            
+        } else {
+            throw new Error('Formspree se error response aaya hai.');
+        }
         
     } catch (error) {
-        console.error('Form submission error:', error);
+        console.error('Form submission mein error:', error);
         
+        // Error alert
         showAlert(
             '<div class="text-center">' +
             '<i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>' +
-            '<h5 class="mb-2">Submission Error</h5>' +
-            '<p>There was an error sending your message.<br>Please try again or contact us directly.</p>' +
+            '<h5 class="mb-2">Error Aayi Hai</h5>' +
+            '<p>Message bhejte waqt ek technical error aayi.<br>Kripya thodi der baad dobara koshish karein.</p>' +
             '</div>',
             'error'
         );
         
     } finally {
-        // Restore button state
+        // Button ko waapas normal state mein layein
         submitButton.innerHTML = originalButtonText;
         submitButton.disabled = false;
         submitButton.classList.remove('loading');
         
-        // Reset submission state
         setTimeout(() => {
             isSubmitting = false;
         }, 3000);
